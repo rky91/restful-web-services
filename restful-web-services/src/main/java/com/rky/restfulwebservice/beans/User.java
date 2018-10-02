@@ -9,7 +9,7 @@ public class User {
 	
 	private int id;
 	
-	@Size(min=3, message="name should have atleast 2 characters.")
+	@Size(min=2, message="name should have atleast 2 characters.")
 	private String name;
 	@Past
 	private Date birthDate;
