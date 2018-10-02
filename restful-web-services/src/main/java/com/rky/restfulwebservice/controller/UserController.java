@@ -2,9 +2,10 @@ package com.rky.restfulwebservice.controller;
 
 import java.net.URI;
 import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +38,23 @@ public class UserController {
 	
 	//Retrieve a user
 	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable String id) {
+	public Resource<User> getUser(@PathVariable String id) {
 		User user = userServices.findOne(Integer.parseInt(id));
 		if(user == null) {
 			throw new UserNotFoundException("id : "+id);
 		}
-		return user;
+		
+		//############### HEATEOS ################
+		//Retrieve all the users
+		Resource<User> resource = new Resource<User>(user);
+		
+		//Create the link for all the users
+		ControllerLinkBuilder link = ControllerLinkBuilder
+					.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).getAllUsers());
+		
+		resource.add(link.withRel("all-users"));
+		
+		return resource;
 	}
 	
 	//save a user(post request)
