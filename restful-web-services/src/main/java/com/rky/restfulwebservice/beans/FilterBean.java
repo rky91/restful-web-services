@@ -1,12 +1,14 @@
 package com.rky.restfulwebservice.beans;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(value= {"field3"}) //class level filtering
+//@JsonIgnoreProperties(value= {"field3"}) //class level filtering
+@JsonFilter(value="filterBeanClass")
 public class FilterBean {
 	
-	@JsonIgnore //Field level filtering
+	//@JsonIgnore //Field level filtering
 	private String field1;
 	private String field2;
 	private String field3;
